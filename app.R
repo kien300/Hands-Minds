@@ -2,10 +2,8 @@ library(tidyverse)
 library(readxl)
 library(qdap)
 library(shiny)
-#library(data.table)
 library(scales)
-#library(waffle)
-#library(ggExtra)
+library(plotly)
 
 #load dataset from Dropbox----
 main <- read.csv('https://www.dropbox.com/s/7ub8ka24fzy7t82/main.csv?raw=1')
