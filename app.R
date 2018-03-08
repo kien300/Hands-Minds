@@ -8,7 +8,8 @@ library(scales)
 #library(ggExtra)
 
 #load dataset from Dropbox----
-main <- read.csv('https://www.dropbox.com/s/7ub8ka24fzy7t82/main.csv?raw=1')
+#main <- read.csv('https://www.dropbox.com/s/7ub8ka24fzy7t82/main.csv?raw=1')
+main <- read.csv("https://www.dropbox.com/s/59djyf59jerehlp/main_v1.csv?raw=1")
 
 #Tidying dataset----
 #Visuals Setting
