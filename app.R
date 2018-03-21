@@ -9,7 +9,9 @@ library(scales)
 
 #load dataset from Dropbox----
 #main <- read.csv('https://www.dropbox.com/s/7ub8ka24fzy7t82/main.csv?raw=1')
-main <- read.csv("https://www.dropbox.com/s/59djyf59jerehlp/main_v1.csv?raw=1")
+#main <- read.csv("https://www.dropbox.com/s/59djyf59jerehlp/main_v1.csv?raw=1")
+main <- read.csv("https://www.dropbox.com/s/o4gjbhn6dtg928k/main_v2.csv?raw=1")
+
 
 #Tidying dataset----
 #Visuals Setting
@@ -50,11 +52,16 @@ ui <- fluidPage(
                           checkboxInput('flip', 'Flip'),
                           
                           selectInput('facet_row', 'Facet Row', c(None='.', names(main))),
-                          selectInput('facet_col', 'Facet Column', c(None='.', names(main)))
+                          selectInput('facet_col', 'Facet Column', c(None='.', names(main))),
+                          
+                          actionButton("linear", "Linear Regression"),
+                          verbatimTextOutput("modelSummary")
                         ),
                         
                         mainPanel(
-                          plotOutput('scatter')))),
+                          plotOutput('scatter')
+
+                          ))),
              
              tabPanel("Livestock",
                       sidebarLayout(
@@ -113,6 +120,24 @@ server <- function(input, output){
     
     print(g3)
   }, height = 600)
+  
+  # if (input$linear)
+  #   if (input$xcol %in% cont & input$ycol %in% cont)
+  #     fit <- lm(input$ycol ~ input$xcol, data = selectedData)
+  #     output$summary <- renderPrint(summary(fit))
+      #summary(fit)
+      
+    #else 
+     
+  #output$modelSummary <- renderPrint({summary(lm(input$ycol ~ input$xcol, data = selectedData()))}) 
+      
+  # observeEvent(input$linear, {
+  #   output$modelSummary <- renderPrint({summary(lm(input$ycol ~ input$xcol, data = selectedData()))})
+  # })
+  
+  # lm1 <- reactive({lm(input$ycol~ input$xcol, data = main)})
+  # observeEvent(input$linear, {
+  #     output$modelSummary <- renderPrint({summary(lm1)})})
   
   # output$bar <- renderPlot({
   #   g4 <- ggplot(livestock, aes(HHID,number,fill=livestock)) +
