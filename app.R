@@ -1,11 +1,6 @@
-library(tidyverse)
-library(readxl)
-library(qdap)
-library(shiny)
-#library(data.table)
-library(scales)
-#library(waffle)
-#library(ggExtra)
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(tidyverse, readxl, qdap, shiny, scales, data.table, 
+               waffle, ggExtra)
 
 #load dataset from Dropbox----
 #main <- read.csv('https://www.dropbox.com/s/7ub8ka24fzy7t82/main.csv?raw=1')
@@ -21,15 +16,11 @@ tol9qualitative=c("#332288", "#88CCEE", "#44AA99", "#117733", "#999933",
 
 #tidy datasets
 #collect Var Names that fulfill data type conditions
-ctgr <- main %>% 
-  summarise_all(funs(is.factor(.)==TRUE)) %>% 
-  unlist() %>% 
-  names(.)[.]
+ctgr <- main %>% select_if(is.factor) %>% 
+  names()
 
-cont <- main %>% 
-  summarise_all(funs(is.numeric(.)==TRUE & !is.integer(.))) %>% 
-  unlist() %>% 
-  names(.)[.]
+cont <- main %>% select_if(is.numeric) %>% 
+  names()
 
 test <- as.list(main)
 #define UI----
@@ -89,7 +80,7 @@ server <- function(input, output){
         geom_boxplot()
     else if (input$xcol %in% cont & input$ycol %in% ctgr)
       g3 <- ggplot(selectedData(), aes_string(x=input$ycol,y=input$xcol)) + 
-        geom_boxplot() + coord_flip() #why this doesnt work???
+        geom_boxplot() + coord_flip()
     else if (input$xcol %in% ctgr & input$ycol %in% ctgr)
       g3 <- ggplot(selectedData(), aes_string(x=input$xcol)) + 
         geom_bar(width = .5, fill='#CC79A7') +
@@ -101,6 +92,9 @@ server <- function(input, output){
     else
       g3 <- ggplot(selectedData(), aes_string(x=input$xcol,y=input$ycol)) + 
         geom_point()
+    
+    # some theme elements
+    g3 <- g3 + theme(axis.title = element_text(size = 15, face = "bold"))
     
     if (input$color != 'None')
       g3 <- g3 + aes_string(color=input$color)

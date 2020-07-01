@@ -1,4 +1,5 @@
-library(RCurl)
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(RCurl)
 
 #Static Plots (ggplot)
 scripts1 <- getURL('https://raw.githubusercontent.com/kien300/Hands-Minds/master/app.R',
